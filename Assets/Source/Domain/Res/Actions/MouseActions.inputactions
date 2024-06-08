@@ -1,0 +1,140 @@
+{
+    "name": "MouseActions",
+    "maps": [
+        {
+            "name": "MouseActionsMap",
+            "id": "fe53acd7-5222-444d-913d-06448c158cf7",
+            "actions": [
+                {
+                    "name": "Right Buttom Click",
+                    "type": "Button",
+                    "id": "9c19d193-3316-4aa7-9794-8d1dce1ea703",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left Buttom Double Click",
+                    "type": "Button",
+                    "id": "50091d21-0d17-471d-b461-2bbed6642641",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left Buttom Hold",
+                    "type": "Button",
+                    "id": "ea7acb87-dd92-4e91-9ff3-865fa9aedaea",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left Buttom Click",
+                    "type": "Button",
+                    "id": "06452afa-ffb2-4cec-88b7-293d0fe83dd5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Middle Buttom Click",
+                    "type": "Button",
+                    "id": "ee64f188-2bec-4c12-a8fe-32e64b99c00f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Scroll",
+                    "type": "Value",
+                    "id": "d00d6b51-69db-4f8a-a97a-d490ac66aa90",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f94aec4a-13d0-436e-a5fa-3042b9508d0b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Common Schema",
+                    "action": "Right Buttom Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d39a24f9-1808-4e8f-ba88-3b9dfee3219d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "MultiTap(tapDelay=0.25)",
+                    "processors": "",
+                    "groups": "Common Schema",
+                    "action": "Left Buttom Double Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d6ff2dc-f189-48f7-81cb-064a6309a265",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold(duration=0.25,pressPoint=0.2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Buttom Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "217d117a-bccf-418e-a5c2-06e69f18e390",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Buttom Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e08ded65-58d8-4aa2-ab1c-151e1b42b618",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Middle Buttom Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e759f4bd-6d25-4bc5-94b3-a97a3a3cc715",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "Scale(factor=0.008333334)",
+                    "groups": "Common Schema",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Common Schema",
+            "bindingGroup": "Common Schema",
+            "devices": []
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "name": "Domain",
+    "rootNamespace": "Battlemage.Domain",
+    "references": [
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:88f78559cc4265148b120a63c096c5d7",
+        "GUID:f72d28cb3a010024683151a7d903d3cd",
+        "GUID:e12373bbb16ac784f98a150f21e80f04",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

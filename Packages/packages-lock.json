@@ -7,7 +7,7 @@
       "dependencies": {
         "com.unity.inputsystem": "1.7.0"
       },
-      "hash": "70ffa6df2e14bcbfcd8754d8ff6bc4b3cad837a5"
+      "hash": "2cbbcc8292969ae6af63ce5cb6729a3ce6f87b9f"
     },
     "com.aveo67.easyinputhandling.zenjectextensions": {
       "version": "https://github.com/aveo67/Easy-Input-Handling-Zenject-Extensions.git",
@@ -33,6 +33,15 @@
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
         "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.cinemachine": {
+      "version": "2.10.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },

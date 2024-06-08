@@ -1,0 +1,140 @@
+{
+    "name": "SystemKeyActions",
+    "maps": [
+        {
+            "name": "SystemKeyMap",
+            "id": "0ffa61ea-21f0-459b-b4e3-dcf1da5b274b",
+            "actions": [
+                {
+                    "name": "Shift Press",
+                    "type": "Button",
+                    "id": "afbea519-2cdf-4f1e-9405-66b2016e923e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Shift Release",
+                    "type": "Button",
+                    "id": "3dbd1542-04f5-4230-ae86-bc358cbebd1e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Alt Press",
+                    "type": "Button",
+                    "id": "9c8b176a-c3c4-4b06-9d93-ce679d05ee3b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Alt Release",
+                    "type": "Button",
+                    "id": "751360a4-b755-4679-8999-83c285e905d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Control Press",
+                    "type": "Button",
+                    "id": "ea1b8c8f-c4dd-4e53-b0e8-6f48295d208b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Control Release",
+                    "type": "Button",
+                    "id": "310aacfa-6537-47a4-86d6-6d650142e8a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "18bb0716-682e-4600-8cff-301436ea753d",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "SysKeyScheme",
+                    "action": "Shift Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a8eeb5f-5376-48d7-a254-6d253c736002",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "SysKeyScheme",
+                    "action": "Shift Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbd1d9d5-705a-4334-b03c-2398cc84509d",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "SysKeyScheme",
+                    "action": "Alt Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6514c2b-f6fc-46a5-8368-c8456a03b6f0",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "SysKeyScheme",
+                    "action": "Alt Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97327d06-0a0a-4e94-bf25-8cc78b5a8a65",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "SysKeyScheme",
+                    "action": "Control Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d6e78a1-7e7b-48d9-b920-fefdafe0fc80",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "SysKeyScheme",
+                    "action": "Control Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "SysKeyScheme",
+            "bindingGroup": "SysKeyScheme",
+            "devices": []
+        }
+    ]
+}
