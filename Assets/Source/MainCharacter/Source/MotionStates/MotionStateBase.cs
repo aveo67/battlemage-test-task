@@ -21,5 +21,10 @@ namespace Battlemage.MainCharacter
 		public abstract void Process();
 
 		public abstract void Push();
+
+		public void Die()
+		{
+			_context.SetNextState(new DeathState(_context));
+		}
 	}
 }

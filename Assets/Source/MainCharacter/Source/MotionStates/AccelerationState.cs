@@ -23,7 +23,7 @@ namespace Battlemage.MainCharacter
 			while (!_context.AchivedMaxSpeed)
 			{
 				if (_stopped)
-					throw new OperationCanceledException();
+					return;
 
 				_context.Move();
 

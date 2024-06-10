@@ -1,7 +1,9 @@
 {
     "name": "MainCharacter",
     "rootNamespace": "Battlemage.MainCharacter",
-    "references": [],
+    "references": [
+        "GUID:9e952533d2d6a0242ade19c8c2bc23f0"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

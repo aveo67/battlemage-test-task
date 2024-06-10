@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class LichAnimationHandler : MonoBehaviour
 {
-	[SerializeField]
 	private Animator _animator;
 
 	/// <summary>
@@ -36,14 +36,7 @@ public class LichAnimationHandler : MonoBehaviour
 
 	private void Awake()
 	{
-		if (_animator == null)
-		{
-			var message = "Animator not set";
-
-			Debug.LogError(message, this);
-
-			throw new NullReferenceException(message);
-		}
+		_animator = GetComponent<Animator>();
 
 		InitAnimatorParameters();
 	}
