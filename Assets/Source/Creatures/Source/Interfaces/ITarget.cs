@@ -8,6 +8,6 @@ namespace Battlemage.Creatures
 
 		bool IsDead { get; }
 
-		void Hit(Demage demage);
+		void Hit(Damage damage);
 	}
 }

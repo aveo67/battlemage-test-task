@@ -1,10 +1,12 @@
 ﻿using Battlemage.Creatures;
+using Battlemage.Spells;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Battlemage.MainCharacter
 {
-	[RequireComponent(typeof(Creature))]
+	[RequireComponent(typeof(Creature), typeof(LichInventory))]
 	public class LichHandler : MonoBehaviour, ITarget
 	{
 		public Action Dead;
@@ -23,13 +25,19 @@ namespace Battlemage.MainCharacter
 
 		private Creature _creature;
 
+		private LichInventory _inventory;
+
 		private float _speedInterpolationTime;
 
 		private Vector3 _direction;
 
 		private MotionStateBase _currentState;
 
+		private SpellHandler _spell;
+
 		private Transform _cameraTransform;
+
+		private DiContainer _container;
 
 		public Transform Transform => transform;
 
@@ -41,10 +49,17 @@ namespace Battlemage.MainCharacter
 
 
 
+		[Inject]
+		private void Construct(DiContainer container)
+		{
+			_container = container;
+		}
+
 		private void Awake()
 		{
 			_characterController = GetComponent<CharacterController>();
 			_creature = GetComponent<Creature>();
+			_inventory = GetComponent<LichInventory>();
 			
 			if (_animationHandler == null)
 				throw new NullReferenceException("Animation handler not set to main character asset");
@@ -52,6 +67,9 @@ namespace Battlemage.MainCharacter
 			_cameraTransform = Camera.main.transform;
 
 			_currentState = new IdleState(this);
+
+			_spell = _inventory.GetSpell(0).GetSpellHandler(_container, transform);
+			_spell.TakeAim();
 		}
 
 		internal void Accelerate()
@@ -104,9 +122,9 @@ namespace Battlemage.MainCharacter
 			_currentState.Brake();
 		}
 
-		public void Hit(Demage demage)
+		public void Hit(Damage damage)
 		{
-			_creature.Hit(demage);
+			_creature.Hit(damage);
 
 			if (_creature.Health > 0f)
 			{
@@ -133,9 +151,16 @@ namespace Battlemage.MainCharacter
 
 		internal async void Die()
 		{
+			_characterController.Move(Vector3.zero);
+
 			await _animationHandler.PlayDieing();
 
 			Dead?.Invoke();
+		}
+
+		public void CastSpell()
+		{
+			_spell.Cast(_creature.GetDamage());
 		}
 	}
 }

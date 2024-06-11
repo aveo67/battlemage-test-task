@@ -31,5 +31,12 @@ namespace Battlemage.MainCharacter
 		{
 
 		}
+
+		public override void Die()
+		{
+			_stopped = true;
+
+			base.Die();
+		}
 	}
 }

@@ -18,6 +18,13 @@ namespace Battlemage.MainCharacter
 			_context.SetNextState(new DeccelerationState(_context));
 		}
 
+		public override void Die()
+		{
+			_stopped = true;
+
+			base.Die();
+		}
+
 		public override async void Process()
 		{
 			while (!_context.AchivedMaxSpeed)

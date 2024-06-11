@@ -21,6 +21,11 @@ namespace Battlemage.Spawner
 			}
 		}
 
+		private void Start()
+		{
+			Spawn();
+		}
+
 		public void Spawn()
 		{
 			_spawner.Spawn();

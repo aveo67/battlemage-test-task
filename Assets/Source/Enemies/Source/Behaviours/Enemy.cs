@@ -1,7 +1,7 @@
 using Battlemage.Creatures;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
-using Zenject;
 
 namespace Battlemage.Enemies
 {
@@ -10,6 +10,9 @@ namespace Battlemage.Enemies
 	{
 		[SerializeField]
 		private GameObject _attackEffectHolder;
+
+		[SerializeField]
+		private GameObject _preservedTarget;
 
 		private ITarget _target;
 
@@ -21,27 +24,44 @@ namespace Battlemage.Enemies
 
 		public bool TargetReached => _agent.remainingDistance <= 2f;
 
-		public bool TargetDead => _target.IsDead;
+		public bool TargetDead => _target?.IsDead ?? true;
 
-		[Inject]
-		private void Construct(ITarget target)
+		public bool HasTarget => _target != null;
+
+
+
+		private void OnEnable()
 		{
-			_target = target;
+			_creature.Dead += OnDead;
 		}
 
 		private void Awake()
 		{
+			if (_preservedTarget != null && _preservedTarget.TryGetComponent<ITarget>(out var t))
+			{
+				_target = t;
+			}
+
 			if (_attackEffectHolder != null)
 				_attackEffectHolder.SetActive(false);
 
 			_creature = GetComponent<Creature>();
 			_agent = GetComponent<NavMeshAgent>();
-			_agent.speed = _creature.Speed;			
+			_agent.speed = _creature.Speed;
 		}
 
 		private void Start()
 		{
 			SetState(new IdleState(this));
+		}
+
+		public void SetTarget(ITarget target)
+		{
+			if (target != null && _target != target)
+			{
+				_target = target;
+				_state.Reset();
+			}
 		}
 
 		internal void SetState(EnemyState state)
@@ -69,9 +89,9 @@ namespace Battlemage.Enemies
 
 			if (hit.distance < 2f)
 			{
-				var demage = _creature.GetDemage();
+				var damage = _creature.GetDamage();
 
-				_target.Hit(demage);
+				_target.Hit(damage);
 
 				if (_attackEffectHolder != null)
 				{
@@ -82,6 +102,13 @@ namespace Battlemage.Enemies
 					_attackEffectHolder.SetActive(false);
 				}
 			}
+		}
+
+		private void OnDead()
+		{
+			_creature.Dead -= OnDead;
+
+			gameObject.SetActive(false);
 		}
 	}
 }

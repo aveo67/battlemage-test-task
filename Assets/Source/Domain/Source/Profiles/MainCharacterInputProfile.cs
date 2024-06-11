@@ -16,7 +16,9 @@ namespace Battlemage.Domain
 		{
 			_builder
 				.UseHandling<CommonInputActions, LichHandler>(b => b.
-					HandleInputContinuousAction(i => i.Keyboard.Movement, cc => cc.ReadValue<Vector2>(), (c, p) => c.Push(p), c => c.Brake()));
+					HandleInputContinuousAction(i => i.Keyboard.Movement, cc => cc.ReadValue<Vector2>(), (c, p) => c.Push(p), c => c.Brake()))
+				.UseHandling<MouseActions, LichHandler>(b => b.
+					HandleInputActionPerformed(i => i.MouseActionsMap.LeftButtomClick, c => c.CastSpell()));
 
 		}
 	}

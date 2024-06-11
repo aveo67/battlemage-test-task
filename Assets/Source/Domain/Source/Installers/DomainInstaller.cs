@@ -9,6 +9,7 @@ namespace Battlemage.Domain
 		public override void InstallBindings()
 		{
 			Container
+				.UsePrefabPools()
 				.BindInputHandlerFactoryFromProfile<MainCharacterInputProfile, LichHandler>();
 		}
 	}

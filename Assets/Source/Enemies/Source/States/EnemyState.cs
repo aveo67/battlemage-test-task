@@ -15,5 +15,10 @@
 		{
 			_context.Stop();
 		}
+
+		public virtual void Reset()
+		{
+			_context.SetState(new IdleState(_context));
+		}
 	}
 }

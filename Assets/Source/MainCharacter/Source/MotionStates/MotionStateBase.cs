@@ -22,7 +22,7 @@ namespace Battlemage.MainCharacter
 
 		public abstract void Push();
 
-		public void Die()
+		public virtual void Die()
 		{
 			_context.SetNextState(new DeathState(_context));
 		}

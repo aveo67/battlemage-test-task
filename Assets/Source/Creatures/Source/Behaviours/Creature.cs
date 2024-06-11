@@ -15,7 +15,7 @@ namespace Battlemage.Creatures
 		private ResistanceModifierDescriptor[] _resistanceModifiers;
 
 		[SerializeField]
-		private DemageDescriptor _demageModifier;
+		private DamageDescriptor _damageModifier;
 
 		private float _health;
 
@@ -25,29 +25,29 @@ namespace Battlemage.Creatures
 
 
 
-		private void Awake()
+		private void OnEnable()
 		{
 			_health = _descriptor.BaseHealth;
 		}
 
-		public void Hit(Demage demage)
+		public void Hit(Damage damage)
 		{
 			if (_health <= 0f)
 				return;
 
-			var totalResistance = Mathf.Clamp(_resistanceModifiers.Sum(n => n.Value) + _descriptor.BaseResistance, -0.85f, 0.85f) * Mathf.Clamp(demage.ResistanceIgnoring, 0f, 1f);
+			var totalResistance = Mathf.Clamp(_resistanceModifiers.Sum(n => n.Value) + _descriptor.BaseResistance, -0.85f, 0.85f) * Mathf.Clamp(damage.ResistanceIgnoring, 0f, 1f);
 
-			var totalDemage = Mathf.Clamp(demage.Value * (1f - totalResistance), 0f, float.MaxValue);
+			var totalDamage = Mathf.Clamp(damage.Value * (1f - totalResistance), 0f, float.MaxValue);
 
-			_health -= totalDemage;
+			_health -= totalDamage;
 
 			if (_health <= 0f)
 				Dead?.Invoke();
 		}
 
-		public Demage GetDemage()
+		public Damage GetDamage()
 		{
-			return new Demage(_demageModifier.Value, _demageModifier.Resistancegnoring);
+			return new Damage(_damageModifier.Value, _damageModifier.Resistancegnoring);
 		}
 	}
 }

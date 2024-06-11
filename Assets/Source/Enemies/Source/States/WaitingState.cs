@@ -2,9 +2,9 @@
 
 namespace Battlemage.Enemies
 {
-	internal class WainingState : EnemyState
+	internal class WaitingState : EnemyState
 	{
-		public WainingState(Enemy context) : base(context)
+		public WaitingState(Enemy context) : base(context)
 		{
 		}
 

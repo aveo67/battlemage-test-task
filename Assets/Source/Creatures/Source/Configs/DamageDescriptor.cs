@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Battlemage.Creatures
 {
-	[CreateAssetMenu(fileName = "DemageModifier", menuName = "Modifiers/DemageModifier", order = 1)]
-	internal class DemageDescriptor : ScriptableObject
+	[CreateAssetMenu(fileName = "DamageModifier", menuName = "Modifiers/DamageModifier", order = 1)]
+	public class DamageDescriptor : ScriptableObject
 	{
 		[SerializeField, Range(1f, 100f)]
 		private float _value;
@@ -15,5 +15,7 @@ namespace Battlemage.Creatures
 		public float Value => _value;
 
 		public float Resistancegnoring => _resistanceIgnoring;
+
+		public Damage Damage => new Damage(Value, Resistancegnoring);
 	}
 }

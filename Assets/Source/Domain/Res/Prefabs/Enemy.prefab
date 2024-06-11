@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackEffectHolder: {fileID: 5812450071827802264}
+  _preservedTarget: {fileID: 0}
 --- !u!114 &2608262755062378597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +280,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 400615543268074721}
     m_Modifications:
+    - target: {fileID: 1616367920038817779, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616367920038817779, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358600083317188240, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358600083317188240, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690345220354127083, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690345220354127083, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7326095626184723084, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7326095626184723084, guid: ae6bdf3417a5d6047a559654858dac31,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7403834500226571452, guid: ae6bdf3417a5d6047a559654858dac31,
         type: 3}
       propertyPath: m_LocalPosition.x

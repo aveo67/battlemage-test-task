@@ -40,5 +40,12 @@ namespace Battlemage.MainCharacter
 
 			_context.SetNextState(new AccelerationState(_context));
 		}
+
+		public override void Die()
+		{
+			_stopped = true;
+
+			base.Die();
+		}
 	}
 }

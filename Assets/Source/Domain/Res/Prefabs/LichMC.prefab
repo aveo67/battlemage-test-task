@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4212756947182973119}
-  - component: {fileID: 1725966467361300522}
+  - component: {fileID: 3169116194699753285}
   - component: {fileID: 2388708724565810899}
-  - component: {fileID: 6934084083100608725}
   - component: {fileID: 6829745332127837512}
+  - component: {fileID: 1725966467361300522}
+  - component: {fileID: 6934084083100608725}
   m_Layer: 0
   m_Name: LichMC
   m_TagString: Untagged
@@ -36,6 +37,52 @@ Transform:
   - {fileID: 6505002558101187621}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3169116194699753285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518793075123251231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3455b01f63e0bde4ca21471aaf0ee64b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _artifacts: []
+  _spells:
+  - {fileID: 11400000, guid: 4a5fa439857554846bdc51cf13705dda, type: 2}
+--- !u!114 &2388708724565810899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518793075123251231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b4ac7e11c0e0bd458290b13afb0e6e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterController: {fileID: 0}
+  _animationHandler: {fileID: 3280242192579799421}
+  _speed: 10
+  _accelerationDuration: 3
+--- !u!114 &6829745332127837512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518793075123251231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c1a6a3f2052dc84c9e72fc8513ceec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _descriptor: {fileID: 11400000, guid: b483618ca2b07f643b0698360d90f505, type: 2}
+  _resistanceModifiers: []
+  _demageModifier: {fileID: 11400000, guid: b398f6f169b5aec4fa3e1361a4cef0a2, type: 2}
 --- !u!143 &1725966467361300522
 CharacterController:
   m_ObjectHideFlags: 0
@@ -62,22 +109,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &2388708724565810899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2518793075123251231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b4ac7e11c0e0bd458290b13afb0e6e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _characterController: {fileID: 0}
-  _animationHandler: {fileID: 3280242192579799421}
-  _speed: 10
-  _accelerationDuration: 3
 --- !u!114 &6934084083100608725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,21 +127,6 @@ MonoBehaviour:
   _useSceneContext: 0
   _context: {fileID: 0}
   _bindType: 2
---- !u!114 &6829745332127837512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2518793075123251231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c1a6a3f2052dc84c9e72fc8513ceec8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _descriptor: {fileID: 11400000, guid: b483618ca2b07f643b0698360d90f505, type: 2}
-  _resistanceModifiers: []
-  _demageModifier: {fileID: 11400000, guid: b398f6f169b5aec4fa3e1361a4cef0a2, type: 2}
 --- !u!1001 &6759005984890129358
 PrefabInstance:
   m_ObjectHideFlags: 0

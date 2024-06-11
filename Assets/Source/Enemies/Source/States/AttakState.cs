@@ -10,7 +10,7 @@
 		{
 			_context.Bite();
 
-			_context.SetState(new WainingState(_context));
+			_context.SetState(new WaitingState(_context));
 		}
 	}
 }
