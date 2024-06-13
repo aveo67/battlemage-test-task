@@ -23,12 +23,12 @@
 
 		internal override void OpenFire()
 		{
-			
+			//
 		}
 
 		public override void Stun()
 		{
-			
+			//
 		}
 	}
 }

@@ -132,7 +132,17 @@ namespace Battlemage.Enemies
 				{
 					_attackEffectHolder.SetActive(true);
 
-					await Awaitable.WaitForSecondsAsync(1f, destroyCancellationToken);
+					try
+					{
+						await Awaitable.WaitForSecondsAsync(1f, destroyCancellationToken);
+					}
+
+					catch (OperationCanceledException)
+					{
+						Debug.Log("Enemy stoped biting because game object was destroyed");
+
+						return;
+					}					
 
 					_attackEffectHolder.SetActive(false);
 				}
@@ -151,7 +161,7 @@ namespace Battlemage.Enemies
 			return $"Enemy. {_creature}, Curent State: {_state.GetType().Name}";
 		}
 
-		internal async void AnimateDead()
+		internal async Awaitable AnimateDead()
 		{
 			_rigidBody.constraints = RigidbodyConstraints.None;
 			_agent.enabled = false;

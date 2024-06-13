@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Battlemage.Enemies
 {
@@ -10,18 +11,28 @@ namespace Battlemage.Enemies
 
 		public override async void Process()
 		{
-			await Awaitable.WaitForSecondsAsync(3f, _context.destroyCancellationToken);
+			try
+			{
+				await Awaitable.WaitForSecondsAsync(3f, _context.destroyCancellationToken);
+			}
+
+			catch (OperationCanceledException)
+			{
+				Debug.Log("Enemy running was terminated");
+
+				return;
+			}
 
 			if (_context.IsDead)
 			{
 				return;
 			}
 
-			if (_context.TargetDead)
+			//if (_context.TargetDead)
 				_context.SetState(new IdleState(_context));
 
-			else
-				_context.SetState(new MovingState(_context));
+			//else
+			//	_context.SetState(new MovingState(_context));
 		}
 	}
 }

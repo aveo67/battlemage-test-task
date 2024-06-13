@@ -2,6 +2,7 @@ using Battlemage.Creatures;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 namespace Battlemage.Spells
 {
@@ -15,7 +16,7 @@ namespace Battlemage.Spells
 
 		private DecalProjector _projector;
 
-
+		private Vector3 Pivot => new Vector3(_parent.position.x, 0f, _parent.position.z);
 
 		protected override void Awake()
 		{
@@ -38,7 +39,17 @@ namespace Battlemage.Spells
 
 				transform.position = pos;
 
-				await Awaitable.NextFrameAsync(destroyCancellationToken);
+				try
+				{
+					await Awaitable.NextFrameAsync(destroyCancellationToken);
+				}
+				
+				catch (OperationCanceledException)
+				{
+					Debug.Log("Spell aiming has stoped because game object was destroyed");
+
+					break;
+				}
 			}
 		}
 
@@ -59,8 +70,9 @@ namespace Battlemage.Spells
 			if (_plane.Raycast(ray, out var hit))
 			{
 				var pos = ray.GetPoint(hit);
+				var pivot = Pivot;
 
-				pos = _parent.position + (pos - _parent.position).normalized * _aimDistance;
+				pos = pivot + (pos - pivot).normalized * _aimDistance;
 
 				return pos;
 			}
@@ -79,8 +91,9 @@ namespace Battlemage.Spells
 			{
 				var bullet = GetBullet(damage);
 
-				bullet.transform.position = _parent.transform.position + Vector3.up * 2f;
-				bullet.transform.rotation = Quaternion.LookRotation(aimPoint, Vector3.up);
+				var pivot = Pivot;
+				bullet.transform.position = pivot + Vector3.up * 2f;
+				bullet.transform.rotation = Quaternion.LookRotation(aimPoint - pivot, Vector3.up);
 
 				bullet.gameObject.SetActive(true);
 				bullet.Release();

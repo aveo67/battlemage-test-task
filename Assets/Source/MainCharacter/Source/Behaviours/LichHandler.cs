@@ -172,8 +172,11 @@ namespace Battlemage.MainCharacter
 			_currentState.OpenFire();
 		}
 
-		internal async void CastSpell()
+		internal async Task CastSpell()
 		{
+			if (!_spell.CanCast)
+				return;
+
 			Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.value);
 
 			var damage = _creature.GetDamage();

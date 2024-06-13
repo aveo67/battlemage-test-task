@@ -69,7 +69,7 @@ public class PrefabPool<T>
 
 		else
 		{
-			GameObject.Destroy(instance);
+			GameObject.Destroy(instance.gameObject);
 		}
 	}
 

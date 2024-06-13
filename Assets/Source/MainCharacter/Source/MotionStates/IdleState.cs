@@ -23,11 +23,5 @@
 			if (!_context.IsDead)
 				_context.SetNextState(new AccelerationState(_context));
 		}
-
-		internal override void OpenFire()
-		{
-			if (!_context.IsDead)
-				_context.CastSpell();
-		}
 	}
 }

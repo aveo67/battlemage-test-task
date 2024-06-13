@@ -47,7 +47,17 @@ namespace Battlemage.Spells
 
 				transform.position = pos;
 
-				await Awaitable.NextFrameAsync(destroyCancellationToken);
+				try
+				{
+					await Awaitable.NextFrameAsync(destroyCancellationToken);
+				}
+
+				catch (OperationCanceledException)
+				{
+					Debug.Log("Spell aiming has stoped because game object was destroyed");
+
+					break;
+				}
 			}
 		}
 
@@ -102,6 +112,7 @@ namespace Battlemage.Spells
 				bullet.transform.position = pos;
 
 				bullet.gameObject.SetActive(true);
+
 				bullet.Release();
 			}
 		}

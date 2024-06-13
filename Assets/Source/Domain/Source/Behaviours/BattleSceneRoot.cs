@@ -2,6 +2,7 @@ using Battlemage.Enemies;
 using Battlemage.MainCharacter;
 using Battlemage.Spawner;
 using EasyInputHandling;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -9,6 +10,9 @@ namespace Battlemage.Domain
 {
 	public class BattleSceneRoot : MonoBehaviour, IInitializable
 	{
+		[SerializeField]
+		private bool _stopSpawn;
+
 		[SerializeField]
 		private int _enemyCount;
 
@@ -33,19 +37,37 @@ namespace Battlemage.Domain
 			_mainCharacter = lichHandler;
 			_input = inputFactory.Create(lichHandler);
 			_supervisor = supervisor;
-			_supervisor.EnemyDead += OnEnemyDead;
-			_supervisor.NewEnemy += OnEnemyAdded;
+
+			if (!_stopSpawn)
+			{
+				_supervisor.EnemyDead += OnEnemyDead;
+				_supervisor.NewEnemy += OnEnemyAdded;
+			}
+			
 			_spawnService = spawnService;
 			lichHandler.Dead += OnMainCharacterDead;
 		}
 
 		private async void Start()
 		{
+			if (_stopSpawn)
+				return;
+
 			while (_supervisor.EnemyCount < _enemyCount)
 			{
 				_spawnService.Spawn(_mainCharacter.transform.position);
 
-				await Awaitable.WaitForSecondsAsync(1f, destroyCancellationToken);
+				try
+				{
+					await Awaitable.WaitForSecondsAsync(1f, destroyCancellationToken);
+				}
+
+				catch (OperationCanceledException)
+				{
+					Debug.Log("Spawn stopped because root was destroyed");
+
+					 return;
+				}
 			}
 		}
 

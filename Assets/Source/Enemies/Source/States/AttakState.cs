@@ -8,6 +8,8 @@
 
 		public override void Process()
 		{
+			_context.Stop();
+
 			_context.Bite();
 
 			_context.SetState(new WaitingState(_context));

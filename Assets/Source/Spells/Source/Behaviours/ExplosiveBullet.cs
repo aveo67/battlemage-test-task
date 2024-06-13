@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Battlemage.Spells
 {
@@ -23,7 +24,17 @@ namespace Battlemage.Spells
 
 				SetScale(currentSize);
 
-				await Awaitable.NextFrameAsync();
+				try
+				{
+					await Awaitable.NextFrameAsync(destroyCancellationToken);
+				}
+				
+				catch (OperationCanceledException)
+				{
+					Debug.Log("ExplosiveBullet stoped because of game object death");
+
+					return;
+				}
 			}
 		}
 

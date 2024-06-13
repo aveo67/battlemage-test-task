@@ -1,4 +1,5 @@
 ﻿using Battlemage.Creatures;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -79,7 +80,7 @@ namespace Battlemage.Spells
 
 		public abstract void Release(Ray ray, Damage damage, int bulletNumber);
 
-		public async void Cast(Ray ray, Damage damage)
+		public async Awaitable Cast(Ray ray, Damage damage)
 		{
 			if (!CanCast)
 				return;
@@ -92,7 +93,17 @@ namespace Battlemage.Spells
 
 			CanCast = false;
 
-			await Awaitable.WaitForSecondsAsync(Deley, destroyCancellationToken);
+			try
+			{
+				await Awaitable.WaitForSecondsAsync(Deley, destroyCancellationToken);
+			}
+
+			catch (OperationCanceledException)
+			{
+				Debug.Log("Spell casting has stoped because game object was destroyed");
+
+				return;
+			}
 
 			CanCast = true;
 

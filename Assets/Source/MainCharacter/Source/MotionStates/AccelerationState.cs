@@ -13,6 +13,9 @@ namespace Battlemage.MainCharacter
 
 		public override void Brake()
 		{
+			if (_stopped)
+				return;
+
 			_stopped = true;
 
 			_context.SetNextState(new DeccelerationState(_context));
@@ -20,6 +23,9 @@ namespace Battlemage.MainCharacter
 
 		public override void Die()
 		{
+			if (_stopped)
+				return;
+
 			_stopped = true;
 
 			base.Die();
@@ -34,7 +40,17 @@ namespace Battlemage.MainCharacter
 
 				_context.Move();
 
-				await Awaitable.NextFrameAsync(_context.destroyCancellationToken);
+				try
+				{
+					await Awaitable.NextFrameAsync(_context.destroyCancellationToken);
+				}
+
+				catch (OperationCanceledException)
+				{
+					Debug.Log("Main Character Game object was destroyed and moution has been terminated");
+
+					return;
+				}
 			}
 
 			if (!_stopped)
@@ -43,16 +59,21 @@ namespace Battlemage.MainCharacter
 
 		public override void Push()
 		{
-			_context.Accelerate();
+			if (!_stopped)
+				_context.Accelerate();
 		}
 
 		internal override void OpenFire()
 		{
+			if (_stopped)
+				return;
+
 			_stopped = true;
 
 			_context.Stop();
 
-			_context.CastSpell();
+			base.OpenFire();
+
 		}
 	}
 }

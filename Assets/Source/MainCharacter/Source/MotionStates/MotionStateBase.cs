@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using UnityEngine;
 
 namespace Battlemage.MainCharacter
 {
@@ -33,6 +32,14 @@ namespace Battlemage.MainCharacter
 			_context.SetNextState(new DeathState(_context));
 		}
 
-		internal abstract void OpenFire();
+		internal virtual async void OpenFire()
+		{
+			if (!_context.IsDead)
+			{
+				await _context.CastSpell();
+			}
+
+			_context.SetNextState(new IdleState(_context));
+		}
 	}
 }

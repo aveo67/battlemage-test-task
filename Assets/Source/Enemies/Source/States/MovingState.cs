@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Battlemage.Enemies
 {
@@ -17,7 +18,17 @@ namespace Battlemage.Enemies
 				if (!_terminated)
 					_context.Move();
 
-				await Awaitable.WaitForSecondsAsync(0.5f, _context.destroyCancellationToken);
+				try
+				{
+					await Awaitable.WaitForSecondsAsync(0.5f, _context.destroyCancellationToken);
+				}
+
+				catch (OperationCanceledException) 
+				{
+					Debug.Log("Enemy running was terminated");
+
+					return;
+				}
 
 			} while (!_terminated && !_context.TargetReached);
 

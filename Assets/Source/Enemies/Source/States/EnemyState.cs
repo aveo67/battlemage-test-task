@@ -1,4 +1,7 @@
-﻿namespace Battlemage.Enemies
+﻿using System;
+using UnityEngine;
+
+namespace Battlemage.Enemies
 {
 	internal abstract class EnemyState
 	{
@@ -21,10 +24,19 @@
 			_context.SetState(new IdleState(_context));
 		}
 
-		public virtual void Dead()
+		public virtual async void Dead()
 		{
 			_context.SetState(new DeadState(_context));
-			_context.AnimateDead();
+
+			try
+			{
+				await _context.AnimateDead();
+			}
+
+			catch (OperationCanceledException)
+			{
+				Debug.Log("Enemy death animation was terminated");
+			}			
 		}
 	}
 }

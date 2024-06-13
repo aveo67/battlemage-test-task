@@ -15,6 +15,8 @@ namespace Battlemage.Spells
 
 		private CancellationTokenSource _tokenSource;
 
+		private SphereCollider _collider;
+
 		public Transform Owner { get; internal set; }
 
 		public Damage Damage { get; internal set; }
@@ -25,9 +27,16 @@ namespace Battlemage.Spells
 
 		public bool AllowFriendlyFire { get; internal set; }
 
-		private void OnCollisionEnter(Collision collision)
+
+
+		private void Awake()
 		{
-			Debug.Log(collision.gameObject.name);
+			_collider = GetComponent<SphereCollider>();
+		}
+
+		private void OnEnable()
+		{
+			_collider.enabled = true;
 		}
 
 		private void OnTriggerEnter(Collider other)
@@ -54,6 +63,8 @@ namespace Battlemage.Spells
 
 		private void Die()
 		{
+			_collider.enabled = false;
+
 			_tokenSource.Cancel();
 			_tokenSource.Dispose();
 			_tokenSource = null;
@@ -61,13 +72,21 @@ namespace Battlemage.Spells
 			Dead?.Invoke(this);
 		}
 
-		public async void Release()
+		public async Awaitable Release()
 		{
 			_tokenSource = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
 
-			await Awaitable.WaitForSecondsAsync(LifeTime, _tokenSource.Token);
+			try
+			{
+				await Awaitable.WaitForSecondsAsync(LifeTime, _tokenSource.Token); ;
 
-			Die();
+				Die();
+			}
+
+			catch (OperationCanceledException)
+			{
+				Debug.Log("Bullet died befor life time's end");
+			}
 		}
 
 		private void OnDisable()

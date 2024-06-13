@@ -9,10 +9,14 @@ namespace Battlemage.Domain
 
 		public event Action<Enemy> NewEnemy;
 
+		private readonly PrefabPool<Enemy> _pool;
+
 		public int EnemyCount { get; private set; }
 
-		public EnemySupervisor(Enemy[] enemies)
+		public EnemySupervisor(Enemy[] enemies, PrefabPool<Enemy> pool)
 		{
+			_pool = pool;
+
 			foreach (Enemy enemy in enemies)
 			{
 				RegisterEnemy(enemy);
@@ -31,6 +35,8 @@ namespace Battlemage.Domain
 			EnemyCount--;
 			EnemyDead?.Invoke();
 			enemy.Dead -= OnEnemyDead;
+
+			_pool.Push(enemy);
 		}
 	}
 }

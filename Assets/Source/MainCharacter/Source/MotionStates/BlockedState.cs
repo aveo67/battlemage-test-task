@@ -41,7 +41,7 @@ namespace Battlemage.MainCharacter
 
 		public override void Die()
 		{
-			
+			//
 		}
 	}
 }

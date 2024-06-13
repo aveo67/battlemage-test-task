@@ -41,15 +41,8 @@ namespace Battlemage.Enemies
 			var enemy = _pool.Get(_prefabs[index]);
 			enemy.transform.position = transform.position;
 			_supervisor.RegisterEnemy(enemy);
-			enemy.Dead += OnEnemyDead;
 			enemy.gameObject.SetActive(true);
 			enemy.GetAlive();
-		}
-
-		private void OnEnemyDead(Enemy enemy)
-		{
-			enemy.Dead -= OnEnemyDead;
-			_pool.Push(enemy);
 		}
 	}
 }

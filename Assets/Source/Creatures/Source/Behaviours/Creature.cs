@@ -18,6 +18,9 @@ namespace Battlemage.Creatures
 		[SerializeField]
 		private DamageDescriptor _damageModifier;
 
+		[SerializeField]
+		private bool _immortal;
+
 		private float _health;
 
 		private HashSet<Artifact> _artifacts = new HashSet<Artifact>();
@@ -62,7 +65,7 @@ namespace Battlemage.Creatures
 
 		public void Hit(Damage damage)
 		{
-			if (_health <= 0f)
+			if (_immortal || _health <= 0f)
 				return;
 
 			var totalResistance = Mathf.Clamp(GetResistance() + _artifacts.Sum(n => n.Resistance) + _descriptor.BaseResistance, -0.85f, 0.85f) * (1f - Mathf.Clamp(damage.ResistanceIgnoring, 0f, 1f));
