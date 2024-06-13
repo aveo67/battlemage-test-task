@@ -5,8 +5,6 @@ namespace Battlemage.Enemies
 {
 	internal class MovingState : EnemyState
 	{
-		private bool _terminated = false;
-
 		public MovingState(Enemy context) : base(context)
 		{
 		}
@@ -34,22 +32,6 @@ namespace Battlemage.Enemies
 
 			if (!_terminated)
 				_context.SetState(new AttakState(_context));
-		}
-
-		public override void Reset()
-		{
-			_terminated = true;
-			_context.Stop();
-
-			base.Reset();
-		}
-
-		public override void Dead()
-		{
-			_terminated = true;
-			_context.Stop();
-
-			base.Dead();
 		}
 	}
 }

@@ -82,7 +82,6 @@ namespace Battlemage.Enemies
 			_rigidBody = GetComponent<Rigidbody>();
 			_collider = GetComponent<Collider>();
 			_agent.speed = _creature.Speed;
-
 		}
 
 		private void Start()
@@ -101,6 +100,8 @@ namespace Battlemage.Enemies
 
 		internal void SetState(EnemyState state)
 		{
+			_state?.Stop();
+
 			_state = state;
 
 			_state.Process();

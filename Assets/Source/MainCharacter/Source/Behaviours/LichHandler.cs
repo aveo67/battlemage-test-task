@@ -100,11 +100,17 @@ namespace Battlemage.MainCharacter
 
 			_characterController.Move(speed * Time.deltaTime * transform.forward);
 
+			var gravityCorrection = transform.position;
+			gravityCorrection = new Vector3(gravityCorrection.x, 0f, gravityCorrection.z);
+			transform.position = gravityCorrection;
+
 			_animationHandler.SetSpeed(speed, _speed);
 		}
 
 		internal void SetNextState(MotionStateBase nextState)
 		{
+			_currentState?.Stop();
+
 			_currentState = nextState;
 
 			_currentState.Process();

@@ -5,25 +5,23 @@ namespace Battlemage.MainCharacter
 {
 	internal class MaxSpeedState : MotionStateBase
 	{
-		private bool _stopped = false;
-
 		public MaxSpeedState(LichHandler context) : base(context)
 		{
 		}
 
 		public override void Brake()
 		{
-			if (_stopped)
+			if (_terminated)
 				return;
 
-			_stopped = true;
+			_terminated = true;
 
 			_context.SetNextState(new DeccelerationState(_context));
 		}
 
 		public override async void Process()
 		{
-			while (!_stopped)
+			while (!_terminated)
 			{
 				_context.Move();
 
@@ -43,29 +41,7 @@ namespace Battlemage.MainCharacter
 
 		public override void Push()
 		{
-
-		}
-
-		public override void Die()
-		{
-			if (_stopped) 
-				return;
-
-			_stopped = true;
-
-			base.Die();
-		}
-
-		internal override void OpenFire()
-		{
-			if ( _stopped) 
-				return;
-
-			_stopped = true;
-
-			_context.Stop();
-
-			base.OpenFire();
+			//
 		}
 	}
 }

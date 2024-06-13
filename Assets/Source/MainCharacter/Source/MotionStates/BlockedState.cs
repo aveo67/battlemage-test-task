@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using UnityEngine;
 
 namespace Battlemage.MainCharacter
 {
@@ -12,6 +11,11 @@ namespace Battlemage.MainCharacter
 			_awaitHandle = awaitHandle;
 		}
 
+		public override void Block(Task awaitHandle)
+		{
+			//
+		}
+
 		public override void Brake()
 		{
 			//
@@ -19,6 +23,8 @@ namespace Battlemage.MainCharacter
 
 		public override async void Process()
 		{
+			_context.Stop();
+
 			await _awaitHandle;
 
 			_context.SetNextState(new IdleState(_context));

@@ -10,9 +10,6 @@
 		{
 			if (!_context.IsDead && _context.HasTarget && !_context.TargetDead)
 				_context.SetState(new MovingState(_context));
-
-			//else
-			//	_context.SetState(new DeadState(_context));
 		}
 	}
 }

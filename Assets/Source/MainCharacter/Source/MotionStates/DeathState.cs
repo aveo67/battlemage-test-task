@@ -1,9 +1,16 @@
-﻿namespace Battlemage.MainCharacter
+﻿using System.Threading.Tasks;
+
+namespace Battlemage.MainCharacter
 {
 	internal class DeathState : MotionStateBase
 	{
 		public DeathState(LichHandler context) : base(context)
 		{
+		}
+
+		public override void Block(Task awaitHandle)
+		{
+			//
 		}
 
 		public override void Brake()

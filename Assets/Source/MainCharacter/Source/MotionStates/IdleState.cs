@@ -13,14 +13,14 @@
 
 		public override void Process()
 		{
-			if (_context.IsDead)
+			if (_context.IsDead && !_terminated)
 				_context.SetNextState(new DeathState(_context));
 
 		}
 
 		public override void Push()
 		{
-			if (!_context.IsDead)
+			if (!_context.IsDead && !_terminated)
 				_context.SetNextState(new AccelerationState(_context));
 		}
 	}

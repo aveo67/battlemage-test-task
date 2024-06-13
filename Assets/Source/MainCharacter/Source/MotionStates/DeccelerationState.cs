@@ -5,22 +5,20 @@ namespace Battlemage.MainCharacter
 {
 	internal class DeccelerationState : MotionStateBase
 	{
-		private bool _stopped = false;
-
 		public DeccelerationState(LichHandler context) : base(context)
 		{
 		}
 
 		public override void Brake()
 		{
-
+			//
 		}
 
 		public override async void Process()
 		{
-			while (!_context.IsIdle && !_stopped)
+			while (!_context.IsIdle)
 			{
-				if (_stopped)
+				if (_terminated)
 					return;
 
 				_context.Deccelerate();
@@ -40,42 +38,19 @@ namespace Battlemage.MainCharacter
 				}
 			}
 
-			if (!_stopped)
+			if (!_terminated)
 				_context.SetNextState(new IdleState(_context));
 		}
 
 		public override void Push()
 		{
-			if (_stopped)
+			if (_terminated)
 				return;
 
-			_stopped = true;
+			_terminated = true;
 
 			_context.SetNextState(new AccelerationState(_context));
 
-		}
-
-		public override void Die()
-		{
-			if (_stopped)
-				return;
-
-			_stopped = true;
-
-			base.Die();
-
-		}
-
-		internal override void OpenFire()
-		{
-			if (_stopped)
-				return;
-
-			_stopped = true;
-
-			_context.Stop();
-
-			base.OpenFire();
 		}
 	}
 }

@@ -28,11 +28,8 @@ namespace Battlemage.Enemies
 				return;
 			}
 
-			//if (_context.TargetDead)
+			if (!_terminated)
 				_context.SetState(new IdleState(_context));
-
-			//else
-			//	_context.SetState(new MovingState(_context));
 		}
 	}
 }

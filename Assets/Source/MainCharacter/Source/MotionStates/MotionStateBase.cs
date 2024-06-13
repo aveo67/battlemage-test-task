@@ -6,13 +6,25 @@ namespace Battlemage.MainCharacter
 	{
 		protected readonly LichHandler _context;
 
+		protected bool _terminated;
+
 		public MotionStateBase(LichHandler context)
 		{
 			_context = context;
 		}
 
-		public void Block(Task awaitHandle)
+		public void Stop()
 		{
+			_terminated = true;
+		}
+
+		public virtual void Block(Task awaitHandle)
+		{
+			if (_terminated)
+				return;
+
+			_terminated = true;
+
 			_context.SetNextState(new BlockedState(_context, awaitHandle));
 		}
 
@@ -29,17 +41,25 @@ namespace Battlemage.MainCharacter
 
 		public virtual void Die()
 		{
+			if (_terminated)
+				return;
+
+			_terminated = true;
+
 			_context.SetNextState(new DeathState(_context));
 		}
 
 		internal virtual async void OpenFire()
 		{
+			if (_terminated)
+				return;
+
 			if (!_context.IsDead)
 			{
+				_context.Stop();
+
 				await _context.CastSpell();
 			}
-
-			_context.SetNextState(new IdleState(_context));
 		}
 	}
 }
