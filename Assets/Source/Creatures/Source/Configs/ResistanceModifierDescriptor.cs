@@ -8,5 +8,10 @@ public class ResistanceModifierDescriptor : ScriptableObject
 	[SerializeField, Range(-0.85f, 0.85f)]
 	private float _value;
 
-	public float Value => _value;
+	public float Value => _value; 
+	
+	public override string ToString()
+	{
+		return $"Resistance: {Value}";
+	}
 }

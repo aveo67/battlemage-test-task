@@ -16,6 +16,11 @@ namespace Battlemage.Creatures
 
 		public float Resistancegnoring => _resistanceIgnoring;
 
-		public Damage Damage => new Damage(Value, Resistancegnoring);
+		public Damage Damage => new Damage(Value, Resistancegnoring); 
+		
+		public override string ToString()
+		{
+			return $"Damage: {_value}, Ignor: {_resistanceIgnoring}";
+		}
 	}
 }

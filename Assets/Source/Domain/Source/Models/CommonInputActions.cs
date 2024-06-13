@@ -37,6 +37,33 @@ namespace Battlemage.Domain
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Number 1"",
+                    ""type"": ""Button"",
+                    ""id"": ""359241a3-10d4-4942-abc3-eb5dcc8bd2a8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Number 2"",
+                    ""type"": ""Button"",
+                    ""id"": ""cdbcdb41-16b6-4374-bc61-2901502887f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Number 3"",
+                    ""type"": ""Button"",
+                    ""id"": ""a1acc3a0-438c-4c09-b7f1-8cadebe9c858"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -149,6 +176,39 @@ namespace Battlemage.Domain
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8622d33f-6925-4431-82a4-e386a63c11c2"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Number 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fb5a80b-9986-4ba6-af28-02b755b81ba3"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Number 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d02c1841-c870-4d55-a405-50d607ceaf66"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Number 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -158,6 +218,9 @@ namespace Battlemage.Domain
             // Keyboard
             m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
             m_Keyboard_Movement = m_Keyboard.FindAction("Movement", throwIfNotFound: true);
+            m_Keyboard_Number1 = m_Keyboard.FindAction("Number 1", throwIfNotFound: true);
+            m_Keyboard_Number2 = m_Keyboard.FindAction("Number 2", throwIfNotFound: true);
+            m_Keyboard_Number3 = m_Keyboard.FindAction("Number 3", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -220,11 +283,17 @@ namespace Battlemage.Domain
         private readonly InputActionMap m_Keyboard;
         private List<IKeyboardActions> m_KeyboardActionsCallbackInterfaces = new List<IKeyboardActions>();
         private readonly InputAction m_Keyboard_Movement;
+        private readonly InputAction m_Keyboard_Number1;
+        private readonly InputAction m_Keyboard_Number2;
+        private readonly InputAction m_Keyboard_Number3;
         public struct KeyboardActions
         {
             private @CommonInputActions m_Wrapper;
             public KeyboardActions(@CommonInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Keyboard_Movement;
+            public InputAction @Number1 => m_Wrapper.m_Keyboard_Number1;
+            public InputAction @Number2 => m_Wrapper.m_Keyboard_Number2;
+            public InputAction @Number3 => m_Wrapper.m_Keyboard_Number3;
             public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -237,6 +306,15 @@ namespace Battlemage.Domain
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Number1.started += instance.OnNumber1;
+                @Number1.performed += instance.OnNumber1;
+                @Number1.canceled += instance.OnNumber1;
+                @Number2.started += instance.OnNumber2;
+                @Number2.performed += instance.OnNumber2;
+                @Number2.canceled += instance.OnNumber2;
+                @Number3.started += instance.OnNumber3;
+                @Number3.performed += instance.OnNumber3;
+                @Number3.canceled += instance.OnNumber3;
             }
 
             private void UnregisterCallbacks(IKeyboardActions instance)
@@ -244,6 +322,15 @@ namespace Battlemage.Domain
                 @Movement.started -= instance.OnMovement;
                 @Movement.performed -= instance.OnMovement;
                 @Movement.canceled -= instance.OnMovement;
+                @Number1.started -= instance.OnNumber1;
+                @Number1.performed -= instance.OnNumber1;
+                @Number1.canceled -= instance.OnNumber1;
+                @Number2.started -= instance.OnNumber2;
+                @Number2.performed -= instance.OnNumber2;
+                @Number2.canceled -= instance.OnNumber2;
+                @Number3.started -= instance.OnNumber3;
+                @Number3.performed -= instance.OnNumber3;
+                @Number3.canceled -= instance.OnNumber3;
             }
 
             public void RemoveCallbacks(IKeyboardActions instance)
@@ -264,6 +351,9 @@ namespace Battlemage.Domain
         public interface IKeyboardActions
         {
             void OnMovement(InputAction.CallbackContext context);
+            void OnNumber1(InputAction.CallbackContext context);
+            void OnNumber2(InputAction.CallbackContext context);
+            void OnNumber3(InputAction.CallbackContext context);
         }
     }
 }

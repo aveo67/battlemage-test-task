@@ -12,9 +12,17 @@ namespace Battlemage.Spells
 
 		private void Awake()
 		{
-			_rigidBody = GetComponent<Rigidbody>();
+			_rigidBody = GetComponent<Rigidbody>();			
+		}
 
+		private void OnEnable()
+		{
 			_rigidBody.velocity = transform.forward * _speed;
+		}
+
+		public override string ToString()
+		{
+			return $"Simple Bullet. Speed: {_speed}";
 		}
 	}
 }

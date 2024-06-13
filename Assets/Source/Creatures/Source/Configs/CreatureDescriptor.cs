@@ -1,3 +1,4 @@
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Creature", menuName = "Creature/Creature", order = 1)]
@@ -17,4 +18,9 @@ public class CreatureDescriptor : ScriptableObject
 	public float BaseResistance => _baseResistance;
 
 	public float BaseMovementSpeed => _baseMovementSpeed;
+
+	public override string ToString()
+	{
+		return $"Heals: {_baseHealth}, Resistance: {_baseResistance}, Speed {_baseMovementSpeed}";
+	}
 }

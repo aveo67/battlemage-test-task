@@ -49,9 +49,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3455b01f63e0bde4ca21471aaf0ee64b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _artifacts: []
+  _artifacts:
+  - {fileID: 11400000, guid: 2eedcc250adb1324cbc7a0423d120581, type: 2}
+  - {fileID: 11400000, guid: f06ed59ec7976cc48a4346030e7f48fa, type: 2}
   _spells:
+  - {fileID: 11400000, guid: 739c0cd2b054df841aa314a63af0185f, type: 2}
   - {fileID: 11400000, guid: 4a5fa439857554846bdc51cf13705dda, type: 2}
+  - {fileID: 11400000, guid: 5f0ede9033909ca4eb1acb054a23f1dc, type: 2}
 --- !u!114 &2388708724565810899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _descriptor: {fileID: 11400000, guid: b483618ca2b07f643b0698360d90f505, type: 2}
   _resistanceModifiers: []
-  _demageModifier: {fileID: 11400000, guid: b398f6f169b5aec4fa3e1361a4cef0a2, type: 2}
+  _damageModifier: {fileID: 11400000, guid: b398f6f169b5aec4fa3e1361a4cef0a2, type: 2}
 --- !u!143 &1725966467361300522
 CharacterController:
   m_ObjectHideFlags: 0

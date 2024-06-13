@@ -1,7 +1,6 @@
 ﻿using Battlemage.Creatures;
 using System;
 using UnityEngine;
-using Zenject;
 
 namespace Battlemage.Spells
 {
@@ -16,45 +15,59 @@ namespace Battlemage.Spells
 	public class Spell : ScriptableObject
 	{
 		[SerializeField]
-		protected DamageDescriptor _damageModifier;
+		protected internal DamageDescriptor _damageModifier;
 
 		[SerializeField]
-		protected SpellHandler _spellHandler;
+		protected internal SpellHandler _spellHandler;
 
-		[SerializeField]
-		protected int _bulletNumber;
+		[SerializeField, Range(1, 100)]
+		protected internal int _bulletNumber;
 
 		[SerializeField]
 		protected BulletHandle _bulletPrefab;
 
-		[SerializeField]
+		[SerializeField, Range(0.5f, 5f)]
 		protected float _bulletLifeTime;
 
 		[SerializeField]
 		protected bool _stopBulletWhenCollided;
 
 		[SerializeField, Range(0f, 5f)]
-		protected float _deley;
+		protected internal float _deley;
 
 		[SerializeField]
 		protected AttackType _attackType;
 
-		private SpellHandler _instance;
+		[SerializeField]
+		protected internal bool _allowFriendlyFire;
 
+		[SerializeField]
 		public AttackType AttackType => _attackType;
 
 
-		public SpellHandler GetSpellHandler(DiContainer container, Transform owner) 
-		{
-			if (_instance == null)
-			{
-				_instance = container.InstantiatePrefabForComponent<SpellHandler>(_spellHandler, owner);
-				_instance.BulletModel = GetBulletModel();
-				_instance.DamageModifier = _damageModifier;
-				_instance.Deley = _deley;
-			}			
 
-			return _instance;
+		private void Awake()
+		{
+			if (_damageModifier == null)
+			{
+				var message = $"Damage Config not set to Spell Config {name}";
+
+				throw new NullReferenceException(message);
+			}
+
+			if (_spellHandler == null)
+			{
+				var message = $"Spell Handler not set to Spell Config {name}";
+
+				throw new NullReferenceException(message);
+			}
+
+			if (_bulletPrefab == null)
+			{
+				var message = $"Bullet Prefab not set to Spell Config {name}";
+
+				throw new NullReferenceException(message);
+			}
 		}
 
 		public BulletModel GetBulletModel()
@@ -66,6 +79,10 @@ namespace Battlemage.Spells
 				Prefab = _bulletPrefab,
 				StopWhenCollided = _stopBulletWhenCollided
 			};
+		}
+		public override string ToString()
+		{
+			return $"Spell: {name}, {GetBulletModel()}, Deley: {_deley}, {_damageModifier}, Allow Friendly Fire: {_allowFriendlyFire}, Attack Type: {_attackType}";
 		}
 	}
 }

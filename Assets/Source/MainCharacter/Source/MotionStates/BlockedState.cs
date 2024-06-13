@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Battlemage.MainCharacter
 {
 	internal class BlockedState : MotionStateBase
 	{
-		private readonly Awaitable _awaitHandle;
+		private readonly Task _awaitHandle;
 
-		public BlockedState(LichHandler context, Awaitable awaitHandle) : base(context)
+		public BlockedState(LichHandler context, Task awaitHandle) : base(context)
 		{
 			_awaitHandle = awaitHandle;
 		}
@@ -26,6 +27,21 @@ namespace Battlemage.MainCharacter
 		public override void Push()
 		{
 			//
+		}
+
+		internal override void OpenFire()
+		{
+			//
+		}
+
+		public override void Stun()
+		{
+			//
+		}
+
+		public override void Die()
+		{
+			
 		}
 	}
 }

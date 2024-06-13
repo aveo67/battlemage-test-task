@@ -10,11 +10,17 @@ namespace Battlemage.Spells
 
 		protected Transform _parent;
 
+		private bool _activated = false;
+
 		internal BulletModel BulletModel { get; set; }
 
 		public float Deley { get; internal set; }
 
 		public DamageDescriptor DamageModifier { get; internal set; }
+
+		public bool AllowFriendlyFire { get; internal set; }
+
+		public AttackType AttackType { get; internal set; }
 
 		public bool CanCast { get; protected set; } = true;
 
@@ -33,38 +39,54 @@ namespace Battlemage.Spells
 		{
 			var bullet = _pool.Get(BulletModel.Prefab);
 			bullet.Damage = damage;
-			bullet.StopWhenCollide = BulletModel.StopWhenCollided;
+			bullet.StopWhenCollided = BulletModel.StopWhenCollided;
 			bullet.LifeTime = BulletModel.LifeTime;
+			bullet.Owner = _parent;
+			bullet.AllowFriendlyFire = AllowFriendlyFire;
 			bullet.transform.SetParent(null);
-			bullet.Dead += (b) =>
-			{
-				_pool.Push(bullet, BulletModel.Prefab.gameObject);
-			};
+			bullet.Dead += OnBulletDead;
 
 			return bullet;
 		}
 
-		//private void OnBulletDead(BulletHandle bullet)
-		//{
-		//	bullet.Dead -= OnBulletDead;
+		private void OnBulletDead(BulletHandle bullet)
+		{
+			bullet.Dead -= OnBulletDead;
 
-		//	_pool.Push(bullet, );
-		//}
+			_pool.Push(bullet);
+		}
 
-		public abstract void TakeAim();
+		protected abstract void TakeAim();
 
-		public abstract void Stop();
+		protected abstract void Stop();
 
-		public abstract void Release(Damage damage, int bulletNumber);
+		public void Activate()
+		{
+			_activated = true;
 
-		public async void Cast(Damage damage)
+			if (CanCast)
+			{
+				TakeAim();
+			}
+		}
+
+		public void Deactivate()
+		{
+			_activated = false;
+
+			Stop();
+		}
+
+		public abstract void Release(Ray ray, Damage damage, int bulletNumber);
+
+		public async void Cast(Ray ray, Damage damage)
 		{
 			if (!CanCast)
 				return;
 
 			damage = DamageModifier.Damage.Combine(damage);
 
-			Release(damage, BulletModel.Number);
+			Release(ray, damage, BulletModel.Number);
 
 			Stop();
 
@@ -74,7 +96,13 @@ namespace Battlemage.Spells
 
 			CanCast = true;
 
-			TakeAim();
+			if (_activated)
+				TakeAim();
+		}
+
+		public override string ToString()
+		{
+			return $"Spell: {name}, Activation Status: {_activated}, Parent: {_parent.name}, {BulletModel}, Deley: {Deley}, {DamageModifier}, Allow Friendly Fire: {AllowFriendlyFire}, Attack Type: {AttackType}, Can Cast: {CanCast}";
 		}
 	}
 }

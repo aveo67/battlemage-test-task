@@ -14,7 +14,8 @@ namespace Battlemage.Enemies
 		{
 			do
 			{
-				_context.Move();
+				if (!_terminated)
+					_context.Move();
 
 				await Awaitable.WaitForSecondsAsync(0.5f, _context.destroyCancellationToken);
 
@@ -30,6 +31,14 @@ namespace Battlemage.Enemies
 			_context.Stop();
 
 			base.Reset();
+		}
+
+		public override void Dead()
+		{
+			_terminated = true;
+			_context.Stop();
+
+			base.Dead();
 		}
 	}
 }

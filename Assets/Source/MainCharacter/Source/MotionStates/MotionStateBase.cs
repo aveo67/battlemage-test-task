@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Battlemage.MainCharacter
 {
@@ -11,7 +12,7 @@ namespace Battlemage.MainCharacter
 			_context = context;
 		}
 
-		public void Block(Awaitable awaitHandle)
+		public void Block(Task awaitHandle)
 		{
 			_context.SetNextState(new BlockedState(_context, awaitHandle));
 		}
@@ -22,9 +23,16 @@ namespace Battlemage.MainCharacter
 
 		public abstract void Push();
 
+		public virtual void Stun()
+		{
+			_context.Stun();
+		}
+
 		public virtual void Die()
 		{
 			_context.SetNextState(new DeathState(_context));
 		}
+
+		internal abstract void OpenFire();
 	}
 }

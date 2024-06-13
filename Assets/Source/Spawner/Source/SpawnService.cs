@@ -9,10 +9,10 @@ namespace Battlemage.Spawner
 		void Spawn();
 	}
 
-	public class SpawnSystem : MonoBehaviour
+	public class SpawnService : MonoBehaviour
 	{
 		[SerializeField]
-		private Transform[] _points;
+		private Transform[] _spawners;
 
 		[SerializeField, Range(1, 100)]
 		private int _radius;
@@ -22,13 +22,11 @@ namespace Battlemage.Spawner
 		private void Awake()
 		{
 			_sqrRadius = _radius * _radius;
-
-			Spawn(Vector3.zero);
 		}
 
 		public void Spawn(Vector3 target)
 		{
-			var list = _points
+			var list = _spawners
 				.Where(n => (target - n.position).sqrMagnitude >= _sqrRadius)
 				.ToArray();
 

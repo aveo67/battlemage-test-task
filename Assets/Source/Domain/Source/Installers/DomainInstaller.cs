@@ -1,4 +1,5 @@
 using Battlemage.MainCharacter;
+using Battlemage.Enemies;
 using EasyInputHandling.ZenjectExtensions;
 using Zenject;
 
@@ -9,7 +10,8 @@ namespace Battlemage.Domain
 		public override void InstallBindings()
 		{
 			Container
-				.UsePrefabPools()
+				.UseMainCharacter()
+				.UseEnemies()
 				.BindInputHandlerFactoryFromProfile<MainCharacterInputProfile, LichHandler>();
 		}
 	}

@@ -8,15 +8,22 @@ namespace Battlemage.Spells
 	[RequireComponent(typeof(SphereCollider), typeof(Rigidbody))]
 	public class BulletHandle : MonoBehaviour
 	{
-		public Action<BulletHandle> Dead;
+		public event Action<BulletHandle> Dead;
+
+		[SerializeField]
+		private bool _ignorGroung = false;
 
 		private CancellationTokenSource _tokenSource;
+
+		public Transform Owner { get; internal set; }
 
 		public Damage Damage { get; internal set; }
 
 		public float LifeTime { get; internal set; }
 
-		public bool StopWhenCollide { get; internal set; }
+		public bool StopWhenCollided { get; internal set; }
+
+		public bool AllowFriendlyFire { get; internal set; }
 
 		private void OnCollisionEnter(Collision collision)
 		{
@@ -25,7 +32,7 @@ namespace Battlemage.Spells
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if (other.CompareTag("Ground"))
+			if (other.CompareTag("Ground") && !_ignorGroung)
 			{
 				Die();
 			}
@@ -34,9 +41,12 @@ namespace Battlemage.Spells
 			{
 				if (other.TryGetComponent<Creature>(out var creature))
 				{
+					if (creature.transform == Owner && !AllowFriendlyFire)
+						return;
+
 					creature.Hit(Damage);
 
-					if (StopWhenCollide)
+					if (StopWhenCollided)
 						Die();
 				}
 			}
@@ -65,6 +75,11 @@ namespace Battlemage.Spells
 			Damage = default;
 			LifeTime = 0f;
 			Dead = null;
+		}
+
+		public override string ToString()
+		{
+			return $"Bullet. Owner: {Owner.name}, Ignore Ground: {_ignorGroung}, Life Time: {LifeTime}, Stop When Collided: {StopWhenCollided}, Allow Friendly Fire: {AllowFriendlyFire}";
 		}
 	}
 }

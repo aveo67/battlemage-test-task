@@ -47,5 +47,14 @@ namespace Battlemage.MainCharacter
 
 			base.Die();
 		}
+
+		internal override void OpenFire()
+		{
+			_stopped = true;
+
+			_context.Stop();
+
+			_context.CastSpell();
+		}
 	}
 }

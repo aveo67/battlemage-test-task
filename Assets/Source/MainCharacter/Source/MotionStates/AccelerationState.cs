@@ -45,5 +45,14 @@ namespace Battlemage.MainCharacter
 		{
 			_context.Accelerate();
 		}
+
+		internal override void OpenFire()
+		{
+			_stopped = true;
+
+			_context.Stop();
+
+			_context.CastSpell();
+		}
 	}
 }

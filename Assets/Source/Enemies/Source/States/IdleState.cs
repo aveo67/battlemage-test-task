@@ -8,8 +8,11 @@
 
 		public override void Process()
 		{
-			if (_context.HasTarget && !_context.TargetDead)
+			if (!_context.IsDead && _context.HasTarget && !_context.TargetDead)
 				_context.SetState(new MovingState(_context));
+
+			//else
+			//	_context.SetState(new DeadState(_context));
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace Battlemage.Spells
 		private float _size;
 
 		[SerializeField, Range(1, 50f)]
-		private float _maxDistance;
+		private float _maxAimDistance;
 
 		private DecalProjector _projector;
 
@@ -28,13 +28,13 @@ namespace Battlemage.Spells
 			base.Awake();
 
 			transform.localScale = new Vector3(_size, _size, _size);
-			_sqrDistance = _maxDistance * _maxDistance;
+			_sqrDistance = _maxAimDistance * _maxAimDistance;
 
 			_projector = GetComponent<DecalProjector>();
 			_projector.enabled = false;
 		}
 
-		public override async void TakeAim()
+		protected override async void TakeAim()
 		{
 			_projector.enabled = true;
 
@@ -51,7 +51,7 @@ namespace Battlemage.Spells
 			}
 		}
 
-		public override void Stop()
+		protected override void Stop()
 		{
 			_projector.enabled = false;
 		}
@@ -60,6 +60,11 @@ namespace Battlemage.Spells
 		{
 			var ray = Camera.main.ScreenPointToRay(Mouse.current.position.value);
 
+			return GetHit(ray);
+		}
+
+		private Vector3 GetHit(Ray ray)
+		{
 			if (_plane.Raycast(ray, out var hit))
 			{
 				var pos = ray.GetPoint(hit);
@@ -68,7 +73,7 @@ namespace Battlemage.Spells
 
 				if (dir.sqrMagnitude > _sqrDistance)
 				{
-					pos = _parent.position + dir.normalized * _maxDistance;
+					pos = _parent.position + dir.normalized * _maxAimDistance;
 				}
 
 				return pos;
@@ -77,9 +82,9 @@ namespace Battlemage.Spells
 			return Vector3.positiveInfinity;
 		}
 
-		public override void Release(Damage damage, int bulletNumber)
+		public override void Release(Ray ray, Damage damage, int bulletNumber)
 		{
-			var aimPoint = GetAimPoint();
+			var aimPoint = GetHit(ray);
 
 			if (aimPoint == Vector3.positiveInfinity)
 				return;
@@ -99,6 +104,11 @@ namespace Battlemage.Spells
 				bullet.gameObject.SetActive(true);
 				bullet.Release();
 			}
+		}
+
+		public override string ToString()
+		{
+			return base.ToString() + $", Size: {_size}, Max Aim Distance: {_maxAimDistance}";
 		}
 	}
 }

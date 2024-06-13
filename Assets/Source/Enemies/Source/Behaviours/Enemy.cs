@@ -5,9 +5,12 @@ using UnityEngine.AI;
 
 namespace Battlemage.Enemies
 {
-	[RequireComponent(typeof(Creature), typeof(NavMeshAgent))]
+	[RequireComponent(typeof(Creature), typeof(NavMeshAgent), typeof(Rigidbody))]
+	[RequireComponent(typeof(Collider))]
 	public class Enemy : MonoBehaviour
 	{
+		public event Action<Enemy> Dead;
+
 		[SerializeField]
 		private GameObject _attackEffectHolder;
 
@@ -20,19 +23,48 @@ namespace Battlemage.Enemies
 
 		private NavMeshAgent _agent;
 
+		private Rigidbody _rigidBody;
+
+		private Collider _collider;
+
 		private EnemyState _state;
 
 		public bool TargetReached => _agent.remainingDistance <= 2f;
 
-		public bool TargetDead => _target?.IsDead ?? true;
+		public bool TargetDead => _target != null ? _target.IsDead : true;
 
 		public bool HasTarget => _target != null;
+
+		public bool IsDead => _creature.Health <= 0f;
 
 
 
 		private void OnEnable()
 		{
 			_creature.Dead += OnDead;
+		}
+
+		public void GetAlive()
+		{
+			_state?.Reset();
+		}
+
+		private void OnDisable()
+		{
+			transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+			_rigidBody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+			_agent.enabled = true;
+			_collider.enabled = true;
+
+			_creature.Dead -= OnDead;
+			Dead = null;
+		}
+
+		private void OnDestroy()
+		{
+			_creature.Dead -= OnDead;
+			Dead = null;
 		}
 
 		private void Awake()
@@ -47,7 +79,10 @@ namespace Battlemage.Enemies
 
 			_creature = GetComponent<Creature>();
 			_agent = GetComponent<NavMeshAgent>();
+			_rigidBody = GetComponent<Rigidbody>();
+			_collider = GetComponent<Collider>();
 			_agent.speed = _creature.Speed;
+
 		}
 
 		private void Start()
@@ -60,7 +95,7 @@ namespace Battlemage.Enemies
 			if (target != null && _target != target)
 			{
 				_target = target;
-				_state.Reset();
+				_state?.Reset();
 			}
 		}
 
@@ -108,7 +143,26 @@ namespace Battlemage.Enemies
 		{
 			_creature.Dead -= OnDead;
 
-			gameObject.SetActive(false);
+			_state.Dead();
+		}
+
+		public override string ToString()
+		{
+			return $"Enemy. {_creature}, Curent State: {_state.GetType().Name}";
+		}
+
+		internal async void AnimateDead()
+		{
+			_rigidBody.constraints = RigidbodyConstraints.None;
+			_agent.enabled = false;
+
+			await Awaitable.WaitForSecondsAsync(1f, destroyCancellationToken);
+
+			_collider.enabled = false;
+
+			await Awaitable.WaitForSecondsAsync(1f, destroyCancellationToken);
+
+			Dead?.Invoke(this);
 		}
 	}
 }

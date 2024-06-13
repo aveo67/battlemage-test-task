@@ -1,8 +1,9 @@
 ﻿using Battlemage.Creatures;
 using Battlemage.Spells;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
-using Zenject;
+using UnityEngine.InputSystem;
 
 namespace Battlemage.MainCharacter
 {
@@ -37,8 +38,6 @@ namespace Battlemage.MainCharacter
 
 		private Transform _cameraTransform;
 
-		private DiContainer _container;
-
 		public Transform Transform => transform;
 
 		internal bool AchivedMaxSpeed => _speedInterpolationTime >= 1f;
@@ -49,18 +48,12 @@ namespace Battlemage.MainCharacter
 
 
 
-		[Inject]
-		private void Construct(DiContainer container)
-		{
-			_container = container;
-		}
-
 		private void Awake()
 		{
 			_characterController = GetComponent<CharacterController>();
 			_creature = GetComponent<Creature>();
 			_inventory = GetComponent<LichInventory>();
-			
+
 			if (_animationHandler == null)
 				throw new NullReferenceException("Animation handler not set to main character asset");
 
@@ -68,8 +61,15 @@ namespace Battlemage.MainCharacter
 
 			_currentState = new IdleState(this);
 
-			_spell = _inventory.GetSpell(0).GetSpellHandler(_container, transform);
-			_spell.TakeAim();
+			_spell = _inventory.GetSpell(0);
+			_spell.Activate();
+		}
+
+		public void SetSpell(int index)
+		{
+			_spell.Deactivate();
+			_spell = _inventory.GetSpell(index - 1);
+			_spell.Activate();
 		}
 
 		internal void Accelerate()
@@ -128,7 +128,7 @@ namespace Battlemage.MainCharacter
 
 			if (_creature.Health > 0f)
 			{
-				Stun();
+				_currentState.Stun();
 			}
 
 			else
@@ -137,20 +137,29 @@ namespace Battlemage.MainCharacter
 			}
 		}
 
-		private void Stun()
+		internal void Stun()
 		{
 			var chance = UnityEngine.Random.Range(0, 5);
 
-            if (chance == 0)
-            {
-				Awaitable delay = _animationHandler.PlayGettingHit();
+			if (chance == 0)
+			{
+				Task delay = _animationHandler.PlayGettingHit();
 
 				_currentState.Block(delay);
-            }
-        }
+			}
+		}
+
+		internal void Stop()
+		{
+			_characterController.Move(Vector3.zero);
+
+			_animationHandler.SetSpeed(0f, _speed);
+		}
 
 		internal async void Die()
 		{
+			_spell.Deactivate();
+
 			_characterController.Move(Vector3.zero);
 
 			await _animationHandler.PlayDieing();
@@ -158,9 +167,37 @@ namespace Battlemage.MainCharacter
 			Dead?.Invoke();
 		}
 
-		public void CastSpell()
+		public void OpenFire()
 		{
-			_spell.Cast(_creature.GetDamage());
+			_currentState.OpenFire();
+		}
+
+		internal async void CastSpell()
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.value);
+
+			var damage = _creature.GetDamage();
+
+			damage.Combine(_inventory.GetTotalDamage());
+
+			Task handle;
+
+			if (_spell.AttackType == AttackType.Long)
+				handle = _animationHandler.PlayLongAttack();
+
+			else
+				handle = _animationHandler.PlayShortAttack();
+
+			_currentState.Block(handle);
+
+			await handle;
+
+			_spell.Cast(ray, _creature.GetDamage());
+		}
+
+		public override string ToString()
+		{
+			return $"Main Character. {_creature}, Current State: {_currentState.GetType().Name}, {_inventory}, Current Spell: {_spell}";
 		}
 	}
 }

@@ -24,6 +24,8 @@ public class PrefabPool<T>
 {
 	private readonly Dictionary<GameObject, Stack<T>> _pools = new Dictionary<GameObject, Stack<T>>();
 
+	private readonly Dictionary<T, GameObject> _associations = new Dictionary<T, GameObject>();
+
 	private readonly GameObject _root;
 
 	private readonly DiContainer _container;
@@ -46,12 +48,17 @@ public class PrefabPool<T>
 		if (pool.Count > 0)
 			return pool.Pop();
 
-		return _container.InstantiatePrefabForComponent<T>(prefab);
+		var instance = _container.InstantiatePrefabForComponent<T>(prefab);
+		instance.gameObject.SetActive(false);
+
+		_associations.Add(instance, prefab.gameObject);
+
+		return instance;
 	}
 
-	public void Push(T instance, GameObject prefab)
+	public void Push(T instance)
 	{
-		if (instance != null && _pools.TryGetValue(prefab, out var pool))
+		if (instance != null && _associations.TryGetValue(instance, out var prefab) && _pools.TryGetValue(prefab, out var pool))
 		{
 			instance.transform.SetParent(_root.transform);
 			instance.transform.position = Vector3.zero;

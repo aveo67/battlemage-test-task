@@ -75,8 +75,11 @@ public class LichAnimationHandler : MonoBehaviour
 		_stateCompletionSource = null;
 	}
 
-	private async Awaitable PlayAnimationState(int id)
+	private async Task PlayAnimationState(int id)
 	{
+        if (_stateCompletionSource != null)
+			await _stateCompletionSource.Task;
+
 		_stateCompletionSource = new TaskCompletionSource<object>();
 
 		_animator.SetTrigger(id);
@@ -84,29 +87,49 @@ public class LichAnimationHandler : MonoBehaviour
 		await _stateCompletionSource.Task;
 	}
 
-	public async Awaitable PlayShortAttack()
+	public async Task PlayShortAttack()
 	{
+		//Debug.Log("PlayShortAttack");
+
 		await PlayAnimationState(_shortAttackTriggerId);
+
+		//Debug.Log("Stop PlayShortAttack");
 	}
 
-	public async Awaitable PlayLongAttack()
+	public async Task PlayLongAttack()
 	{
+		//Debug.Log("PlayLongAttack");
+
 		await PlayAnimationState(_longAttackTriggerId);
+
+		//Debug.Log("Stop PlayLongAttack");
 	}
 
-	public async Awaitable PlayGettingHit()
+	public async Task PlayGettingHit()
 	{
+		//Debug.Log("PlayGettingHit");
+
 		await PlayAnimationState(_hitTriggerId);
+
+		//Debug.Log("Stop PlayGettingHit");
 	}
 
-	public async Awaitable PlayWinning()
+	public async Task PlayWinning()
 	{
+		//Debug.Log("PlayWinning");
+
 		await PlayAnimationState(_winTriggerId);
+
+		//Debug.Log("Stop PlayWinning");
 	}
 
-	public async Awaitable PlayDieing()
+	public async Task PlayDieing()
 	{
+		//Debug.Log("PlayDieing");
+
 		await PlayAnimationState(_dieTriggerId);
+
+		//Debug.Log("Stop PlayDieing");
 	}
 
 	public void SetSpeed(float speed, float maxSpeed)

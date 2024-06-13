@@ -9,5 +9,10 @@ namespace Battlemage.Spells
 		public float LifeTime { get; set; }
 
 		public bool StopWhenCollided { get; set; }
+
+		public override string ToString()
+		{
+			return $"Bullet Model. Number: {Number}, Prefab: {Prefab.name}, Life Time: {LifeTime}, Stop When Collided: {StopWhenCollided}";
+		}
 	}
 }

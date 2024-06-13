@@ -20,5 +20,11 @@
 		{
 			_context.SetState(new IdleState(_context));
 		}
+
+		public virtual void Dead()
+		{
+			_context.SetState(new DeadState(_context));
+			_context.AnimateDead();
+		}
 	}
 }

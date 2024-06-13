@@ -10,7 +10,12 @@ namespace Battlemage.Enemies
 
 		public override async void Process()
 		{
-			await Awaitable.WaitForSecondsAsync(3f);
+			await Awaitable.WaitForSecondsAsync(3f, _context.destroyCancellationToken);
+
+			if (_context.IsDead)
+			{
+				return;
+			}
 
 			if (_context.TargetDead)
 				_context.SetState(new IdleState(_context));
